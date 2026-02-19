@@ -1,0 +1,956 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+		<style>
+			.vip_page_wrapper html,
+			a,
+			abbr,
+			acronym,
+			address,
+			applet,
+			article,
+			aside,
+			audio,
+			b,
+			big,
+			blockquote,
+			body,
+			canvas,
+			caption,
+			center,
+			cite,
+			code,
+			dd,
+			del,
+			details,
+			dfn,
+			div,
+			dl,
+			dt,
+			em,
+			embed,
+			fieldset,
+			figcaption,
+			figure,
+			footer,
+			form,
+			h1,
+			h2,
+			h3,
+			h4,
+			h5,
+			h6,
+			header,
+			hgroup,
+			i,
+			iframe,
+			img,
+			ins,
+			kbd,
+			label,
+			legend,
+			li,
+			mark,
+			menu,
+			nav,
+			object,
+			ol,
+			output,
+			p,
+			pre,
+			q,
+			ruby,
+			s,
+			samp,
+			section,
+			small,
+			span,
+			strike,
+			strong,
+			sub,
+			summary,
+			sup,
+			table,
+			tbody,
+			td,
+			tfoot,
+			th,
+			thead,
+			time,
+			tr,
+			tt,
+			u,
+			ul,
+			var,
+			video {
+				border: 0;
+				font: inherit;
+				margin: 0;
+				padding: 0;
+				vertical-align: baseline;
+			}
+			.vip_page_wrapper article,
+			aside,
+			details,
+			figcaption,
+			figure,
+			footer,
+			header,
+			hgroup,
+			menu,
+			nav,
+			section {
+				display: block;
+			}
+			body {
+				line-height: 1;
+			}
+			.vip_page_wrapper ol,
+			ul {
+				list-style: none !important;
+			}
+			blockquote,
+			q {
+				quotes: none;
+			}
+			blockquote:after,
+			blockquote:before,
+			q:after,
+			q:before {
+				content: "";
+			}
+			table {
+				border-collapse: collapse;
+				border-spacing: 0;
+			}
+			input,
+			select,
+			textarea {
+				color: inherit;
+				font-family: inherit;
+				font-size: inherit;
+			}
+			input:-webkit-autofill,
+			input:-webkit-autofill:focus,
+			input:-webkit-autofill:hover,
+			select:-webkit-autofill,
+			select:-webkit-autofill:focus,
+			select:-webkit-autofill:hover,
+			textarea:-webkit-autofill,
+			textarea:-webkit-autofill:focus,
+			textarea:-webkit-autofill:hover {
+				-webkit-text-fill-color: #393939;
+				-webkit-box-shadow: inset 0 0 0 1000px transparent;
+				-webkit-transition: background-color 5000s ease-in-out 0s;
+				transition: background-color 5000s ease-in-out 0s;
+			}
+			input[type="number"]::-webkit-inner-spin-button,
+			input[type="number"]::-webkit-outer-spin-button {
+				-webkit-appearance: none;
+				margin: 0;
+			}
+			.vip_page_wrapper a {
+				outline: none;
+				text-decoration: none !important;
+			}
+			img,
+			video {
+				height: auto;
+				max-width: 100%;
+			}
+			* {
+				-webkit-tap-highlight-color: transparent;
+			}
+			*,
+			:after,
+			:before {
+				-webkit-box-sizing: border-box;
+				box-sizing: border-box;
+			}
+			:focus {
+				outline: none;
+			}
+			img {
+				display: block;
+			}
+			:root {
+				--whiteColor: #ffffff;
+				--blackColor: #000000;
+				--lilaColor: #6352ff;
+				--darkLilaColor: #584ed4;
+				--greyLightColor: #f1f3f5;
+				--greyColor: #4f606f;
+				--greyDarkColor: #34414d;
+				--bgColor: #010808;
+			}
+			html {
+				height: 100%;
+			}
+			.vip_page_wrapper {
+				background-color: var(--bgColor) !important;
+				font-family:
+					Stolzl,
+					Inter,
+					-apple-system,
+					BlinkMacSystemFont,
+					Segoe UI,
+					Roboto,
+					Oxygen,
+					Ubuntu,
+					Cantarell,
+					Fira Sans,
+					Droid Sans,
+					Helvetica Neue,
+					sans-serif !important;
+				min-height: 100%;
+				overflow: hidden;
+				position: relative;
+				width: 100%;
+			}
+			.vip_page_container {
+				margin: 0 auto;
+				/* max-width: 960px; */
+				width: 100%;
+			}
+			/* 			@media (max-width: 959px) {
+				.vip_page_container {
+					max-width: 500px;
+				}
+			}
+			@media (max-width: 500px) {
+				.vip_page_container {
+					max-width: 100%;
+				}
+			} */
+			button {
+				background: none;
+				border: none;
+				color: inherit;
+				cursor: pointer;
+				font: inherit;
+				margin: 0;
+				padding: 0;
+			}
+			@font-face {
+				font-display: swap;
+				font-family: Stolzl;
+				font-style: normal;
+				font-weight: 400;
+				src:
+					url(https://d36qhe25w9jqx.cloudfront.net/static/font/Stolzl-Regular.woff2)
+						format("woff2"),
+					url(https://d36qhe25w9jqx.cloudfront.net/static/font/Stolzl-Regular.woff)
+						format("woff");
+			}
+			@font-face {
+				font-display: swap;
+				font-family: Stolzl;
+				font-style: normal;
+				font-weight: 500;
+				src:
+					url(https://d36qhe25w9jqx.cloudfront.net/static/font/Stolzl-Medium.woff2)
+						format("woff2"),
+					url(https://d36qhe25w9jqx.cloudfront.net/static/font/Stolzl-Medium.woff)
+						format("woff");
+			}
+			.vip_page_main {
+				display: -webkit-box;
+				display: -ms-flexbox;
+				display: flex;
+				-webkit-box-orient: vertical;
+				-webkit-box-direction: normal;
+				-ms-flex-direction: column;
+				flex-direction: column;
+				gap: 16px;
+			}
+			@media (min-width: 960px) {
+				.vip_page_main {
+					gap: 24px;
+				}
+			}
+
+			/* ----- slider -------- */
+			.vip_page_level {
+				width: 100%;
+				
+			}
+			@media screen and (min-width: 960px) {
+				.vip_page_level {
+					
+				}
+			}
+			iframe.vip_page_level_slider_wrap {
+				width: 100%;
+				margin-bottom: 12px;
+				font-family:
+					Stolzl,
+					Inter,
+					-apple-system,
+					BlinkMacSystemFont,
+					Segoe UI,
+					Roboto,
+					Oxygen,
+					Ubuntu,
+					Cantarell,
+					Fira Sans,
+					Droid Sans,
+					Helvetica Neue,
+					sans-serif !important;
+			}
+			@media screen and (min-width: 960px) {
+				iframe.vip_page_level_slider_wrap {
+					margin-bottom: 16px;
+				}
+			}
+
+			.vip_page_level_button_wrap {
+				width: 100%;
+			}
+			@media screen and (min-width: 960px) {
+				.vip_page_level_button_wrap {
+					width: 100%;
+					display: -webkit-box;
+					display: -ms-flexbox;
+					display: flex;
+					-webkit-box-align: center;
+					-ms-flex-align: center;
+					align-items: center;
+					-webkit-box-pack: justify;
+					-ms-flex-pack: justify;
+					justify-content: center;
+				}
+			}
+			.vip_page_level_button {
+				width: 100%;
+				min-height: 40px;
+				border-radius: 8px;
+				background-color: var(--lilaColor);
+				color: var(--whiteColor) !important;
+				display: -webkit-box;
+				display: -ms-flexbox;
+				display: flex;
+				-webkit-box-align: center;
+				-ms-flex-align: center;
+				align-items: center;
+				-webkit-box-pack: justify;
+				-ms-flex-pack: justify;
+				justify-content: center;
+				font-family:
+					Stolzl,
+					Inter,
+					-apple-system,
+					BlinkMacSystemFont,
+					Segoe UI,
+					Roboto,
+					Oxygen,
+					Ubuntu,
+					Cantarell,
+					Fira Sans,
+					Droid Sans,
+					Helvetica Neue,
+					sans-serif !important;
+				font-weight: 400 !important;
+				font-size: 14px !important;
+				line-height: 16px;
+				padding: 12px 24px 12px 26px;
+			}
+			.vip_page_level_button:hover {
+				background-color: var(--darkLilaColor);
+			}
+			@media screen and (min-width: 960px) {
+				.vip_page_level_button {
+					width: fit-content;
+					display: inline-block;
+					padding: 12px 16px 12px 16px;
+				}
+			}
+			/* -------- benefits --------- */
+			.vip_page_benefits {
+				width: 100%;
+			}
+
+			.vip_page_benefits_title {
+				display: inline-flex;
+				-webkit-box-align: center;
+				-ms-flex-align: center;
+				align-items: center;
+				-webkit-box-pack: justify;
+				-ms-flex-pack: justify;
+				justify-content: center;
+				gap: 8px;
+				margin: 0 0 12px 0;
+			}
+			@media screen and (min-width: 960px) {
+				.vip_page_benefits_title {
+					margin: 0 0 16px 0;
+				}
+			}
+			.vip_page_benefits_title_text {
+				display: inline-flex;
+				font-family:
+					Stolzl,
+					Inter,
+					-apple-system,
+					BlinkMacSystemFont,
+					Segoe UI,
+					Roboto,
+					Oxygen,
+					Ubuntu,
+					Cantarell,
+					Fira Sans,
+					Droid Sans,
+					Helvetica Neue,
+					sans-serif !important;
+				font-size: 16px !important;
+				line-height: 24px;
+				font-weight: 500 !important;
+				color: var(--greyDarkColor) !important;
+				text-transform: uppercase;
+			}
+			@media screen and (min-width: 960px) {
+				.vip_page_benefits_title_text {
+					font-size: 20px !important;
+					line-height: 24px;
+				}
+			}
+			.vip_page_benefits_list {
+				display: grid;
+				grid-template-columns: 1fr;
+				grid-row-gap: 8px;
+				margin-bottom: 12px;
+			}
+			@media screen and (min-width: 960px) {
+				.vip_page_benefits_list {
+				}
+			}
+			.vip_page_benefits_item {
+				width: 100%;
+				/* height: 260px; */
+				padding: 8px;
+				border-radius: 16px;
+				background-color: var(--greyLightColor) !important;
+			}
+			/* .item-1 {
+					height: 292px;
+				}
+				.item-2 {
+					height: 276px;
+				}
+			.item-3 {
+				height: 308px;
+			} */
+			/* 			@media screen and (min-width: 960px) {
+				.item-1 {
+					height: 276px;
+				}
+				.item-2 {
+					height: 276px;
+				}
+				.item-3 {
+					height: 560px;
+				}
+			} */
+			.vip_page_benefits_item_img_wrap {
+				width: 100%;
+				height: 160px;
+				border-radius: 12px;
+				margin-bottom: 8px;
+			}
+			@media screen and (min-width: 960px) {
+				.item-1 .vip_page_benefits_item_img_wrap {
+					height: 192px;
+				}
+				.item-2 .vip_page_benefits_item_img_wrap {
+					height: 176px;
+				}
+				.item-3 .vip_page_benefits_item_img_wrap {
+					height: 460px;
+				}
+			}
+			.vip_page_benefits_item_img {
+				width: 100%;
+				height: 100%;
+				border-radius: 12px;
+				object-fit: cover;
+			}
+			.vip_page_benefits_item_img_desk {
+				display: none;
+				width: 100%;
+				height: 100%;
+				border-radius: 12px;
+				object-fit: cover;
+			}
+			@media screen and (min-width: 960px) {
+				.vip_page_benefits_item_img_mob {
+					display: none;
+				}
+				.vip_page_benefits_item_img_desk {
+					display: block;
+				}
+			}
+			.vip_page_benefits_item_text_wrap {
+				padding: 0 8px 8px 8px;
+			}
+			.vip_page_benefits_item_title {
+				font-family:
+					Stolzl,
+					Inter,
+					-apple-system,
+					BlinkMacSystemFont,
+					Segoe UI,
+					Roboto,
+					Oxygen,
+					Ubuntu,
+					Cantarell,
+					Fira Sans,
+					Droid Sans,
+					Helvetica Neue,
+					sans-serif !important;
+				font-size: 16px !important;
+				font-style: normal;
+				line-height: 16px !important;
+				font-weight: 500 !important;
+				color: var(--greyDarkColor) !important;
+				margin: 0 0 8px 0 !important;
+			}
+			.vip_page_benefits_item_text {
+				font-family:
+					Stolzl,
+					Inter,
+					-apple-system,
+					BlinkMacSystemFont,
+					Segoe UI,
+					Roboto,
+					Oxygen,
+					Ubuntu,
+					Cantarell,
+					Fira Sans,
+					Droid Sans,
+					Helvetica Neue,
+					sans-serif !important;
+				font-size: 12px !important;
+				line-height: 16px !important;
+				font-weight: 400 !important;
+				color: var(--greyDarkColor) !important;
+				margin: 0 !important;
+			}
+
+			.vip_page_benefits_button_wrap {
+				width: 100%;
+			}
+			@media screen and (min-width: 960px) {
+				.vip_page_benefits_button_wrap {
+					width: 100%;
+					display: -webkit-box;
+					display: -ms-flexbox;
+					display: flex;
+					-webkit-box-align: center;
+					-ms-flex-align: center;
+					align-items: center;
+					-webkit-box-pack: justify;
+					-ms-flex-pack: justify;
+					justify-content: center;
+				}
+			}
+			.vip_page_benefits_button {
+				width: 100%;
+				min-height: 40px;
+				border-radius: 8px;
+				background-color: var(--lilaColor);
+				color: var(--whiteColor) !important;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-family:
+					Stolzl,
+					Inter,
+					-apple-system,
+					BlinkMacSystemFont,
+					Segoe UI,
+					Roboto,
+					Oxygen,
+					Ubuntu,
+					Cantarell,
+					Fira Sans,
+					Droid Sans,
+					Helvetica Neue,
+					sans-serif !important;
+				font-weight: 400 !important;
+				font-size: 14px !important;
+				line-height: 16px;
+			}
+			.vip_page_benefits_button:hover {
+				background-color: var(--darkLilaColor);
+			}
+			@media screen and (min-width: 960px) {
+				.vip_page_benefits_button {
+					width: fit-content;
+					display: inline-block;
+					padding: 12px 16px 12px 16px;
+				}
+			}
+
+			/* ----- quastions ------ */
+			.vip_page_question {
+				width: 100%;
+			}
+			/* @media screen and (min-width: 960px) {
+				.vip_page_question {
+					padding: 0 16px 0 16px;
+				}
+			} */
+			.vip_page_question_title {
+				display: inline-flex;
+				-webkit-box-align: center;
+				-ms-flex-align: center;
+				align-items: center;
+				-webkit-box-pack: justify;
+				-ms-flex-pack: justify;
+				justify-content: center;
+				gap: 8px;
+				margin: 0 0 12px 0;
+			}
+			@media screen and (min-width: 960px) {
+				.vip_page_question_title {
+					margin: 0 0 16px 0;
+				}
+			}
+			.vip_page_question_title_text {
+				display: inline-flex;
+				font-family:
+					Stolzl,
+					Inter,
+					-apple-system,
+					BlinkMacSystemFont,
+					Segoe UI,
+					Roboto,
+					Oxygen,
+					Ubuntu,
+					Cantarell,
+					Fira Sans,
+					Droid Sans,
+					Helvetica Neue,
+					sans-serif !important;
+				font-size: 16px !important;
+				line-height: 24px;
+				font-weight: 500 !important;
+				color: var(--greyDarkColor) !important;
+				text-transform: uppercase;
+			}
+			@media screen and (min-width: 960px) {
+				.vip_page_question_title_text {
+					font-size: 20px !important;
+					line-height: 24px;
+				}
+			}
+			.vip_page_question_list {
+				background-color: var(--greyLightColor) !important;
+				border-radius: 12px;
+			}
+
+			.vip_page_question_list_item {
+				background: #f9f9fb !important;
+				/* padding: 0 16px 0 0; */
+				overflow: hidden;
+				transition: color 0.25s ease;
+			}
+			.faq-item-1 {
+				border-top-left-radius: 12px;
+				border-top-right-radius: 12px;
+				border-bottom: 1px solid #dbe1e7 !important;
+			}
+			.faq-item-2 {
+				border-bottom: 1px solid #dbe1e7 !important;
+			}
+			.faq-item-3 {
+				border-bottom: 1px solid #dbe1e7 !important;
+			}
+
+			.faq-item-5 {
+				border-bottom-left-radius: 12px;
+				border-bottom-right-radius: 12px;
+				border-top: 1px solid #dbe1e7 !important;
+			}
+
+			.vip_page_question_list_item summary {
+				cursor: pointer;
+				font-family:
+					Stolzl,
+					Inter,
+					-apple-system,
+					BlinkMacSystemFont,
+					Segoe UI,
+					Roboto,
+					Oxygen,
+					Ubuntu,
+					Cantarell,
+					Fira Sans,
+					Droid Sans,
+					Helvetica Neue,
+					sans-serif !important;
+				font-size: 14px !important;
+				line-height: 16px;
+				padding: 8px;
+				font-weight: 500;
+				list-style: none;
+				display: -webkit-box;
+				display: -ms-flexbox;
+				display: flex;
+				-webkit-box-align: center;
+				-ms-flex-align: center;
+				align-items: center;
+				-webkit-box-pack: justify;
+				-ms-flex-pack: justify;
+				justify-content: space-between;
+				color: var(--greyDarkColor) !important;
+			}
+			@media screen and (min-width: 960px) {
+				.vip_page_question_list_item summary {
+					padding: 16px;
+				}
+			}
+			.vip_page_question_list_item[open] summary {
+				color: #7b3fff !important;
+				padding-left: 16px;
+			}
+			.vip_page_question_list_item_text {
+				gap: 32px;
+			}
+			@media screen and (min-width: 960px) {
+				.vip_page_question_list_item_text {
+					gap: 8px;
+				}
+			}
+			/* Прибираємо стандартний трикутник */
+			.vip_page_question_list_item summary::-webkit-details-marker {
+				display: none;
+			}
+
+			/* Стрілочка */
+			.vip_page_question_list_item summary::after {
+				content: "";
+				width: 20px;
+				height: 20px;
+				background: url("./images/arrows_close.png") center/contain no-repeat;
+				transition: transform 0.25s ease;
+			}
+
+			.vip_page_question_list_item[open] summary::after {
+				background-image: url("./images/arrows_open.png");
+			}
+
+			.vip_page_question_list_item_content {
+				font-family:
+					Stolzl,
+					Inter,
+					-apple-system,
+					BlinkMacSystemFont,
+					Segoe UI,
+					Roboto,
+					Oxygen,
+					Ubuntu,
+					Cantarell,
+					Fira Sans,
+					Droid Sans,
+					Helvetica Neue,
+					sans-serif !important;
+				font-weight: 400;
+				font-size: 12px;
+				line-height: 16px;
+				color: var(--greyColor) !important;
+				border-top: 1px solid #dbe1e7 !important;
+				padding: 16px;
+				animation: fade 0.3s ease;
+			}
+
+			@keyframes fade {
+				from {
+					opacity: 0;
+				}
+				to {
+					opacity: 1;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div class="vip_page_wrapper">
+			<div class="vip_page_container">
+				<main class="vip_page_main">
+					<section class="vip_page_benefits">
+						<div class="vip_page_benefits_title-wrap">
+							<h2 class="vip_page_benefits_title">VIP BENEFITS</h2>
+							<div class="vip_page_benefits_subtitle">
+								Your VIP journey begins with a qualifying deposit, granting
+								access to the program’s exclusive privileges.
+							</div>
+						</div>
+
+						<div>
+							<ul class="vip_page_benefits_list">
+								<li class="vip_page_benefits_item item-1">
+									<div class="vip_page_benefits_item_img_wrap">
+										<img
+											class="vip_page_benefits_item_img"
+											src="./images/benefit_1.png"
+											alt="fleugzeug"
+										/>
+									</div>
+									<div class="vip_page_benefits_item_text_wrap">
+										<div class="vip_page_benefits_item_title">
+											Super fast withdrawal
+										</div>
+										<div class="vip_page_benefits_item_text">
+											Average withdrawal time for VIP members - 2 minutes
+										</div>
+									</div>
+								</li>
+								<li class="vip_page_benefits_item item-2">
+									<div class="vip_page_benefits_item_img_wrap">
+										<img
+											class="vip_page_benefits_item_img"
+											src="./images/benefit_2.png"
+											alt="diamond"
+										/>
+									</div>
+									<div class="vip_page_benefits_item_text_wrap">
+										<div class="vip_page_benefits_item_title">
+											Exclusive cashback offer and other bonuses
+										</div>
+										<div class="vip_page_benefits_item_text">
+											Up to 70% cashback and additional privileges not available
+											in the standard program
+										</div>
+									</div>
+								</li>
+								<li class="vip_page_benefits_item item-3">
+									<div class="vip_page_benefits_item_img_wrap">
+										<img
+											class="vip_page_benefits_item_img vip_page_benefits_item_img_mob"
+											src="./images/benefit_3.png"
+											alt="personalmanager"
+										/>
+									</div>
+									<div class="vip_page_benefits_item_text_wrap">
+										<div class="vip_page_benefits_item_title">
+											Your personal concierge
+										</div>
+										<div class="vip_page_benefits_item_text">
+											Personal support tailored specifically to your preferences
+											24/7
+										</div>
+									</div>
+								</li>
+							</ul>
+						</div>
+						<div class="vip_page_benefits_button_wrap">
+							<a class="vip_page_benefits_button" href="/cashier/deposit"
+								><img
+									src="./images/material-symbols_diamond-outline-rounded.png"
+									alt="diamond"
+								/>Get privilege</a
+							>
+						</div>
+					</section>
+
+					<section class="vip_page_level">
+						<div>Loalty that works for you</div>
+						<div>
+							Review the benefits associated with each VIP level.Levels are
+							unlocked starting from 20,000 USDT in deposits.
+						</div>
+						<div>
+							<iframe
+								class="vip_page_level_slider_wrap"
+								src="./slider.html"
+								frameborder="0"
+								width="100%"
+								height="334"
+							></iframe>
+						</div>
+						<div class="vip_page_level_button_wrap">
+							<a class="vip_page_level_button" href="/cashier/deposit"
+								>Get your level up</a
+							>
+						</div>
+					</section>
+
+					<section class="vip_page_question">
+						<h2 class="vip_page_question_title">
+							<span
+								><img
+									src="./images/faqs_icon.png"
+									alt="faqs"
+									width="24"
+									height="24"
+							/></span>
+							<span class="vip_page_question_title_text">FAQs</span>
+						</h2>
+
+						<div class="vip_page_question_list">
+							<details class="vip_page_question_list_item faq-item-1">
+								<summary>What is the vip Program?</summary>
+								<div class="vip_page_question_list_item_content">
+									Our vip Program is a rewarding system designed to appreciate
+									our players for staying active. By placing bets, you earn
+									points that help you climb through vip levels and unlock
+									exclusive benefits. Higher levels grant access to enhanced
+									bonuses, increased cashback, special promotions, and other
+									premium rewards tailored to elevate your gaming experience.
+								</div>
+							</details>
+
+							<details class="vip_page_question_list_item faq-item-2">
+								<summary>How to increase my vip level?</summary>
+								<div class="vip_page_question_list_item_content">
+									The more you play at WEI$$.BET, the faster you can level up
+									and unlock all the top-tier benefits. Stay with us and enjoy
+									the ultimate gaming experience!
+								</div>
+							</details>
+
+							<details class="vip_page_question_list_item faq-item-3">
+								<summary class="vip_page_question_list_item_text">
+									How many bets do I need to place to earn 1 point?
+								</summary>
+								<div class="vip_page_question_list_item_content">
+									The number of bets required to earn 1 point depends on the
+									game type and the current exchange rate. Points are calculated
+									using the following formula:<br />
+
+									Points Amount = (Bet Amount × Bet Wager) / Exchange Rate<br />
+
+									Where:<br />
+
+									◦ Bet Wager - a coefficient that depends on the type of game
+									you are playing.<br />
+									◦ Exchange Rate - the current actual rate of 1 WEFT.<br />
+									You can view all Bet Wagers in the Play to Earn section on the
+									Analytics page.<br />
+									For example, to earn 1 point at Slots you need to bet ~15
+									USDT, in Live Games ~150 USDT.<br />
+									The more points you collect, the higher your vip level
+									becomes.
+								</div>
+							</details>
+
+							<details class="vip_page_question_list_item faq-item-5">
+								<summary>What is daily cashback?</summary>
+								<div class="vip_page_question_list_item_content">
+									Daily Cashback is a partial return of your lost funds for the
+									previous day - a kind of ‘insurance’ that helps you stay in
+									the game and try your luck again. The amount depends on your
+									activity and vip level. You can receive from 5% to 13% of your
+									losses back on a regular basis.
+								</div>
+							</details>
+						</div>
+					</section>
+				</main>
+			</div>
+		</div>
+	</body>
+</html>
