@@ -407,6 +407,19 @@
 				justify-content: center;
 				gap: 8px;
 			}
+
+			.vip_page_benefits_item_title_wrap {
+				display: flex;
+				flex-direction: row;
+				gap: 4px;
+			}
+			@media screen and (min-width: 960px) {
+				.vip_page_benefits_item_title_wrap {
+					display: flex;
+					flex-direction: column;
+					gap: 0;
+				}
+			}
 			.vip_page_benefits_item_title {
 				font-family:
 					Stolzl,
@@ -702,31 +715,11 @@
 
 			.vip_page_status {
 				position: relative;
-				/* 				background-image:
-					url(./images/right_arrow_image.png), url(./images/vip_status_1.png),
-					url(./images/vip_status_2.png);
-				background-repeat: no-repeat, no-repeat, no-repeat;
-				background-size:
-					60vw 15vw,
-					188px 188px,
-					190px 183px;
-				background-position:
-					center top 126px,
-					left top 42px,
-					right top 38px; */
 			}
 			@media screen and (min-width: 960px) {
 				.vip_page_status {
 					padding-top: 54px;
 					padding-bottom: 88px;
-					/* background-size:
-						62vw 15.77vw,
-						306px 306px,
-						346px 346px;
-					background-position:
-						center top 207px,
-						left top,
-						right top; */
 				}
 			}
 			.vip_page_status_img_1 {
@@ -1116,15 +1109,7 @@
 				font-weight: 400;
 				font-size: 12px;
 				line-height: 16px;
-				/* background:
-					linear-gradient(0deg, #323232, #323232),
-					linear-gradient(0deg, #ffffff, #ffffff);
-				-webkit-background-clip: text;
-				background-clip: text;
-				-webkit-text-fill-color: transparent;
-				color: transparent; */
 				color: var(--greyColor);
-
 				border-top: 1px solid #113139 !important;
 				padding: 16px;
 				animation: fade 0.3s ease;
@@ -1163,11 +1148,17 @@
 											/>
 										</div>
 										<div class="vip_page_benefits_item_text_wrap">
-											<div class="vip_page_benefits_item_title">
-												Super fast withdrawal
+											<div class="vip_page_benefits_item_title_wrap">
+												<div class="vip_page_benefits_item_title">
+													Super fast
+												</div>
+												<div class="vip_page_benefits_item_title">
+													withdrawal
+												</div>
 											</div>
 											<div class="vip_page_benefits_item_text">
-												Average withdrawal time for VIP members - 2 minutes
+												Average withdrawal time<br />
+												for VIP members - 2 minutes
 											</div>
 										</div>
 									</li>
@@ -1180,12 +1171,17 @@
 											/>
 										</div>
 										<div class="vip_page_benefits_item_text_wrap">
-											<div class="vip_page_benefits_item_title">
-												Exclusive cashback offer and other bonuses
+											<div>
+												<div class="vip_page_benefits_item_title">
+													Exclusive cashback offer
+												</div>
+												<div class="vip_page_benefits_item_title">
+													and other bonuses
+												</div>
 											</div>
 											<div class="vip_page_benefits_item_text">
-												Up to 70% cashback and additional privileges not
-												available in the standard program
+												Up to 70% cashback and additional<br />
+												privileges not available in the standard program
 											</div>
 										</div>
 									</li>
@@ -1198,12 +1194,17 @@
 											/>
 										</div>
 										<div class="vip_page_benefits_item_text_wrap">
-											<div class="vip_page_benefits_item_title">
-												Your personal concierge
+											<div class="vip_page_benefits_item_title_wrap">
+												<div class="vip_page_benefits_item_title">
+													Your personal
+												</div>
+												<div class="vip_page_benefits_item_title">
+													concierge
+												</div>
 											</div>
 											<div class="vip_page_benefits_item_text">
-												Personal support tailored specifically to your
-												preferences 24/7
+												Personal support tailored specifically<br />
+												to your preferences 24/7
 											</div>
 										</div>
 									</li>
