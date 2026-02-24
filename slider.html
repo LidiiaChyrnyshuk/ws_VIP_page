@@ -58,7 +58,7 @@
 
 			.vip_page_level_arrow_left {
 				position: absolute;
-				left: 8px;
+				left: 16px;
 				top: 50%;
 				transform: translateY(-50%);
 				z-index: 20;
@@ -67,17 +67,17 @@
 			.vip_page_level_arrow_right {
 				position: absolute;
 				top: 50%;
-				right: 8px;
+				right: 16px;
 				transform: translateY(-50%);
 				z-index: 20;
 			}
 			@media screen and (min-width: 960px) {
 				.vip_page_level_arrow_left {
-					left: 16px;
+					left: 32px;
 				}
 
 				.vip_page_level_arrow_right {
-					right: 16px;
+					right: 32px;
 				}
 			}
 
@@ -107,10 +107,10 @@
 			}
 			.vip_page_level_arrows_wrap a {
 				transition: opacity 0.2s ease;
-				opacity: 0.6;
+				opacity: 0.8;
 			}
 			.vip_page_level_arrows_wrap a.is-disabled {
-				opacity: 0.32;
+				opacity: 0;
 				pointer-events: none;
 			}
 			.vip_page_level_arrows_wrap a:not(.is-disabled):hover {
@@ -158,7 +158,6 @@
 				mask-size: 100% 100%;
 				-webkit-mask-repeat: no-repeat;
 				mask-repeat: no-repeat;
-				
 			}
 
 			@media screen and (min-width: 960px) {
@@ -249,7 +248,7 @@
 					<div class="slider" id="levels-slider">
 						<div id="slide21" class="card">
 							<img
-								src="./images/Cashback card - default_21.png"
+								src="./images/level_21.png"
 								alt="card"
 								width="248"
 								height="352"
@@ -257,7 +256,7 @@
 						</div>
 						<div id="slide22" class="card">
 							<img
-								src="./images/Cashback card - default_22.png"
+								src="./images/level_22.png"
 								alt="card"
 								width="248"
 								height="352"
@@ -265,7 +264,7 @@
 						</div>
 						<div id="slide23" class="card">
 							<img
-								src="./images/Cashback card - default_23.png"
+								src="./images/level_23.png"
 								alt="card"
 								width="248"
 								height="352"
@@ -273,7 +272,7 @@
 						</div>
 						<div id="slide24" class="card">
 							<img
-								src="./images/Cashback card - default_24.png"
+								src="./images/level_24.png"
 								alt="card"
 								width="248"
 								height="352"
@@ -281,7 +280,7 @@
 						</div>
 						<div id="slide25" class="card">
 							<img
-								src="./images/Cashback card - default_25.png"
+								src="./images/level_25.png"
 								alt="card"
 								width="248"
 								height="352"
@@ -289,7 +288,7 @@
 						</div>
 						<div id="slide26" class="card">
 							<img
-								src="./images/Cashback card - default_26.png"
+								src="./images/level_26.png"
 								alt="card"
 								width="248"
 								height="352"
@@ -297,7 +296,7 @@
 						</div>
 						<div id="slide27" class="card">
 							<img
-								src="./images/Cashback card - default_27.png"
+								src="./images/level_27.png"
 								alt="card"
 								width="248"
 								height="352"
@@ -305,7 +304,7 @@
 						</div>
 						<div id="slide28" class="card">
 							<img
-								src="./images/Cashback card - default_28.png"
+								src="./images/level_28.png"
 								alt="card"
 								width="248"
 								height="352"
@@ -313,7 +312,7 @@
 						</div>
 						<div id="slide29" class="card">
 							<img
-								src="./images/Cashback card - default_29.png"
+								src="./images/level_29.png"
 								alt="card"
 								width="248"
 								height="352"
@@ -321,7 +320,7 @@
 						</div>
 						<div id="slide30" class="card">
 							<img
-								src="./images/Cashback card - default_30.png"
+								src="./images/level_30.png"
 								alt="card"
 								width="248"
 								height="352"
@@ -333,218 +332,207 @@
 		</section>
 
 		<script>
-			document.addEventListener("DOMContentLoaded", () => {
-				const track = document.getElementById("levels-slider");
-				const slides = Array.from(track.children);
+document.addEventListener("DOMContentLoaded", () => {
 
-				const btnLeft = document.getElementById("arrow-left");
-				const btnRight = document.getElementById("arrow-right");
-				const leftImg = document.getElementById("arrow-left-img");
-				const rightImg = document.getElementById("arrow-right-img");
+	const track = document.getElementById("levels-slider");
+	const slides = Array.from(track.children);
 
-				const HOLD_DELAY = 300;
-				const FAST_STEP = 3;
-				const FAST_INTERVAL = 80;
-				let holdTimeout = null;
-				let holdInterval = null;
+	const btnLeft = document.getElementById("arrow-left");
+	const btnRight = document.getElementById("arrow-right");
 
-				let position = 0;
-				let cardWidth = slides[0].offsetWidth + 8;
-				let maxShift;
-				let startTime = 0;
-				let velocity = 0;
+	const HOLD_DELAY = 300;
+	const FAST_STEP = 3;
+	const FAST_INTERVAL = 80;
 
-				function recalc() {
-					cardWidth = slides[0].offsetWidth + 8;
-					maxShift = -(track.scrollWidth - track.parentElement.clientWidth);
+	let holdTimeout = null;
+	let holdInterval = null;
 
-					// Центрування картки №1 на початку (0-based)
-					const containerWidth = track.parentElement.clientWidth;
-					const targetIndex = 0;
-					position =
-						-(targetIndex * cardWidth) + (containerWidth / 2 - cardWidth / 2);
+	let position = 0;
+	let cardWidth = 0;
+	let maxShift = 0;
+	let velocity = 0;
+	let startTime = 0;
 
-					if (position > 0) position = 0;
-					if (position < maxShift) position = maxShift;
+	/* ---------------- HELPERS ---------------- */
 
-					track.style.transform = `translateX(${position}px)`;
-					updateArrowsOpacity();
-				}
+	function getContainerWidth() {
+		return track.closest(".slider-container").clientWidth;
+	}
 
-				window.addEventListener("resize", recalc);
-				recalc();
+	function getGap() {
+		return parseFloat(getComputedStyle(track).gap) || 0;
+	}
 
-				function updateArrowsOpacity() {
-					// ліва стрілка
-					if (position >= 0) {
-						btnLeft.classList.add("is-disabled");
-					} else {
-						btnLeft.classList.remove("is-disabled");
-					}
+	function getCenterOffset() {
+		return getContainerWidth() / 2 - cardWidth / 2;
+	}
 
-					// права стрілка
-					if (position <= maxShift) {
-						btnRight.classList.add("is-disabled");
-					} else {
-						btnRight.classList.remove("is-disabled");
-					}
-				}
+	function clampPosition() {
+		if (position > 0) position = 0;
+		if (position < maxShift) position = maxShift;
+	}
 
-				// --- КНОПКИ ---
-				btnRight.addEventListener("click", (e) => {
-					e.preventDefault();
-					moveSlide(-1);
-				});
+	function applyTransform(animated = true) {
+		track.style.transition = animated
+			? "transform 0.45s cubic-bezier(0.22,0.61,0.36,1)"
+			: "none";
 
-				btnLeft.addEventListener("click", (e) => {
-					e.preventDefault();
-					moveSlide(1);
-				});
+		track.style.transform = `translateX(${position}px)`;
+		updateArrowsOpacity();
+	}
 
-				function moveSlide(direction) {
-					position += direction * cardWidth;
-					if (position > 0) position = 0;
-					if (position < maxShift) position = maxShift;
+	/* ---------- ACTIVE INDEX (ГОЛОВНИЙ FIX) ---------- */
 
-					track.style.transition =
-						"transform 0.45s cubic-bezier(0.22, 0.61, 0.36, 1)";
-					track.style.transform = `translateX(${position}px)`;
-					updateArrowsOpacity();
-				}
+	function getCurrentIndex() {
+		const centerOffset = getCenterOffset();
+		return Math.round((-position + centerOffset) / cardWidth);
+	}
 
-				// --- DRAG / SWIPE ---
-				let startX = 0;
-				let dragging = false;
-				let startPos = 0;
+	function goToIndex(index, animated = true) {
+		const centerOffset = getCenterOffset();
 
-				function dragStart(e) {
-					dragging = true;
-					track.style.transition = "none";
+		index = Math.max(0, Math.min(slides.length - 1, index));
 
-					startX = e.pageX || (e.touches && e.touches[0].pageX);
-					startPos = position;
-					startTime = Date.now();
-					velocity = 0;
-				}
+		position = -(index * cardWidth) + centerOffset;
 
-				function dragMove(e) {
-					if (!dragging) return;
+		clampPosition();
+		applyTransform(animated);
+	}
 
-					e.preventDefault();
+	/* ---------------- RECALC ---------------- */
 
-					const x = e.touches ? e.touches[0].pageX : e.pageX;
+	function recalc() {
+		cardWidth = slides[0].offsetWidth + getGap();
 
-					const delta = x - startX;
-					position = startPos + delta;
+		const containerWidth = getContainerWidth();
+		maxShift = -(track.scrollWidth - containerWidth);
 
-					const elapsed = Date.now() - startTime;
-					if (elapsed > 0) {
-						velocity = delta / elapsed; // px/ms
+		goToIndex(0, false);
+	}
 
-						// clamp для iOS
-						velocity = Math.max(-3, Math.min(3, velocity));
-					}
+	window.addEventListener("resize", recalc);
+	recalc();
 
-					if (position > 0) position = 0;
-					if (position < maxShift) position = maxShift;
+	/* ---------------- ARROWS ---------------- */
 
-					track.style.transform = `translateX(${position}px)`;
-				}
+	function updateArrowsOpacity() {
+		btnLeft.classList.toggle("is-disabled", position >= 0);
+		btnRight.classList.toggle("is-disabled", position <= maxShift);
+	}
 
-				function dragEnd() {
-					if (!dragging) return;
-					dragging = false;
+	btnRight.addEventListener("click", e => {
+		e.preventDefault();
+		goToIndex(getCurrentIndex() + 1);
+	});
 
-					const containerWidth = track.parentElement.clientWidth;
-					const centerOffset = containerWidth / 2 - cardWidth / 2;
+	btnLeft.addEventListener("click", e => {
+		e.preventDefault();
+		goToIndex(getCurrentIndex() - 1);
+	});
 
-					/* let index = Math.max(0, Math.min(slides.length - 1, index)); */
-					let index = Math.round((-position + centerOffset) / cardWidth);
+	/* ---------------- DRAG ---------------- */
 
-					// 🚀 FAST SWIPE
-					const speed = Math.abs(velocity);
-					if (speed > 0.5) {
-						const boost = Math.min(4, Math.ceil(speed * 2));
-						if (velocity < 0) index += boost;
-						else index -= boost;
-					}
+	let dragging = false;
+	let startX = 0;
+	let startPos = 0;
 
-					position = -(index * cardWidth) + centerOffset;
+	function dragStart(e) {
+		dragging = true;
+		startX = e.pageX || e.touches[0].pageX;
+		startPos = position;
+		startTime = Date.now();
+		velocity = 0;
+		track.style.transition = "none";
+	}
 
-					if (position > 0) position = 0;
-					if (position < maxShift) position = maxShift;
+	function dragMove(e) {
+		if (!dragging) return;
 
-					track.style.transition =
-						"transform 0.55s cubic-bezier(0.22, 0.61, 0.36, 1)";
-					track.style.transform = `translateX(${position}px)`;
+		e.preventDefault();
 
-					updateArrowsOpacity();
-				}
+		const x = e.touches ? e.touches[0].pageX : e.pageX;
+		const delta = x - startX;
 
-				//  прокрутка на кнопці //
-				function startHold(direction) {
-					holdTimeout = setTimeout(() => {
-						holdInterval = setInterval(() => {
-							position += direction * cardWidth * FAST_STEP;
+		position = startPos + delta;
 
-							if (position > 0) position = 0;
-							if (position < maxShift) position = maxShift;
+		const elapsed = Date.now() - startTime;
+		if (elapsed > 0) {
+			velocity = Math.max(-3, Math.min(3, delta / elapsed));
+		}
 
-							track.style.transition = "none";
-							track.style.transform = `translateX(${position}px)`;
-							updateArrowsOpacity();
-						}, FAST_INTERVAL);
-					}, HOLD_DELAY);
-				}
+		clampPosition();
+		track.style.transform = `translateX(${position}px)`;
+	}
 
-				function stopHold() {
-					clearTimeout(holdTimeout);
-					clearInterval(holdInterval);
-					holdTimeout = null;
-					holdInterval = null;
+	function dragEnd() {
+		if (!dragging) return;
+		dragging = false;
 
-					// легкий snap після швидкої прокрутки
-					track.style.transition =
-						"transform 0.45s cubic-bezier(0.22, 0.61, 0.36, 1)";
-				}
-				btnRight.addEventListener("mousedown", () => startHold(-1));
-				btnRight.addEventListener("touchstart", () => startHold(-1), {
-					passive: true,
-				});
+		let index = getCurrentIndex();
 
-				btnRight.addEventListener("mouseup", stopHold);
-				btnRight.addEventListener("mouseleave", stopHold);
-				btnRight.addEventListener("touchend", stopHold);
-				btnRight.addEventListener("touchcancel", stopHold);
-				btnLeft.addEventListener("mousedown", () => startHold(1));
-				btnLeft.addEventListener("touchstart", () => startHold(1), {
-					passive: true,
-				});
+		// fast swipe boost
+		const speed = Math.abs(velocity);
+		if (speed > 0.5) {
+			const boost = Math.min(4, Math.ceil(speed * 2));
+			index += velocity < 0 ? boost : -boost;
+		}
 
-				btnLeft.addEventListener("mouseup", stopHold);
-				btnLeft.addEventListener("mouseleave", stopHold);
-				btnLeft.addEventListener("touchend", stopHold);
-				btnLeft.addEventListener("touchcancel", stopHold);
+		goToIndex(index);
+	}
 
-				track.addEventListener("touchstart", dragStart, { passive: true });
-				track.addEventListener("touchmove", dragMove, { passive: false });
-				track.addEventListener("touchend", dragEnd);
-				track.addEventListener("touchcancel", dragEnd);
+	/* ---------------- HOLD SCROLL ---------------- */
 
-				// --- MOUSE SWIPE ---
-				track.addEventListener("mousedown", (e) => {
-					e.preventDefault();
-					dragStart(e);
-				});
+	function startHold(direction) {
+		holdTimeout = setTimeout(() => {
 
-				document.addEventListener("mousemove", (e) => {
-					dragMove(e);
-				});
+			holdInterval = setInterval(() => {
+				position += direction * cardWidth * FAST_STEP;
+				clampPosition();
+				applyTransform(false);
+			}, FAST_INTERVAL);
 
-				document.addEventListener("mouseup", () => {
-					dragEnd();
-				});
-			});
-		</script>
+		}, HOLD_DELAY);
+	}
+
+	function stopHold() {
+		clearTimeout(holdTimeout);
+		clearInterval(holdInterval);
+
+		holdTimeout = null;
+		holdInterval = null;
+
+		// SNAP ДО ЦЕНТРУ ПІСЛЯ HOLD
+		goToIndex(getCurrentIndex());
+	}
+
+	btnRight.addEventListener("mousedown", () => startHold(-1));
+	btnRight.addEventListener("touchstart", () => startHold(-1), { passive:true });
+
+	btnLeft.addEventListener("mousedown", () => startHold(1));
+	btnLeft.addEventListener("touchstart", () => startHold(1), { passive:true });
+
+	["mouseup","mouseleave","touchend","touchcancel"].forEach(evt=>{
+		btnRight.addEventListener(evt, stopHold);
+		btnLeft.addEventListener(evt, stopHold);
+	});
+
+	/* ---------------- EVENTS ---------------- */
+
+	track.addEventListener("touchstart", dragStart, { passive:true });
+	track.addEventListener("touchmove", dragMove, { passive:false });
+	track.addEventListener("touchend", dragEnd);
+	track.addEventListener("touchcancel", dragEnd);
+
+	track.addEventListener("mousedown", e => {
+		e.preventDefault();
+		dragStart(e);
+	});
+
+	document.addEventListener("mousemove", dragMove);
+	document.addEventListener("mouseup", dragEnd);
+
+});
+</script>
+
 	</body>
 </html>
