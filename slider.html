@@ -8,9 +8,6 @@
 			body {
 				padding: 0;
 				margin: 0;
-				/* 				background-color: #010808;
-				padding-left: 8px;
-				padding-right: 8px; */
 			}
 			:root {
 				--whiteColor: #ffffff;
@@ -108,6 +105,7 @@
 			.vip_page_level_arrows_wrap a {
 				transition: opacity 0.2s ease;
 				opacity: 0.8;
+				pointer-events: auto;
 			}
 			.vip_page_level_arrows_wrap a.is-disabled {
 				opacity: 0;
@@ -140,24 +138,31 @@
 			}
 
 			.vip_page_level_container_mask {
+				--mask-left: 10%;
+				--mask-right: 90%;
+
 				-webkit-mask-image: linear-gradient(
 					to right,
 					transparent 0%,
-					#000e13 10%,
-					#000e13 90%,
+					#000 var(--mask-left),
+					#000 var(--mask-right),
 					transparent 100%
 				);
+
 				mask-image: linear-gradient(
 					to right,
 					transparent 0%,
-					#000e13 10%,
-					#000e13 90%,
+					#000 var(--mask-left),
+					#000 var(--mask-right),
 					transparent 100%
 				);
-				-webkit-mask-size: 100% 100%;
+
 				mask-size: 100% 100%;
-				-webkit-mask-repeat: no-repeat;
 				mask-repeat: no-repeat;
+
+				transition:
+					mask-image 0.25s ease,
+					-webkit-mask-image 0.25s ease;
 			}
 
 			@media screen and (min-width: 960px) {
@@ -333,204 +338,168 @@
 
 		<script>
 document.addEventListener("DOMContentLoaded", () => {
+  const track = document.getElementById("levels-slider");
+  const slides = Array.from(track.children);
+  const btnLeft = document.getElementById("arrow-left");
+  const btnRight = document.getElementById("arrow-right");
+  const mask = document.querySelector(".vip_page_level_container_mask");
 
-	const track = document.getElementById("levels-slider");
-	const slides = Array.from(track.children);
+  const HOLD_DELAY = 300;
+  const FAST_STEP = 3;
+  const FAST_INTERVAL = 80;
 
-	const btnLeft = document.getElementById("arrow-left");
-	const btnRight = document.getElementById("arrow-right");
+  let holdTimeout = null;
+  let holdInterval = null;
+  let position = 0;
+  let cardWidth = 0;
+  let maxShift = 0;
+  let velocity = 0;
+  let startTime = 0;
 
-	const HOLD_DELAY = 300;
-	const FAST_STEP = 3;
-	const FAST_INTERVAL = 80;
+  /* ---------- HELPERS ---------- */
 
-	let holdTimeout = null;
-	let holdInterval = null;
+  const getGap = () => parseFloat(getComputedStyle(track).gap) || 0;
+  const getContainerWidth = () => track.closest(".slider-container").clientWidth;
+  const getCenterOffset = () => getContainerWidth() / 2 - cardWidth / 2;
 
-	let position = 0;
-	let cardWidth = 0;
-	let maxShift = 0;
-	let velocity = 0;
-	let startTime = 0;
+  const clampPosition = () => {
+    if (position > 0) position = 0;
+    if (position < maxShift) position = maxShift;
+  };
 
-	/* ---------------- HELPERS ---------------- */
+  const getCurrentIndex = () => Math.round((-position + getCenterOffset()) / cardWidth);
 
-	function getContainerWidth() {
-		return track.closest(".slider-container").clientWidth;
-	}
+  /* ---------- EDGE & MASK LOGIC ---------- */
+  const updateMaskAndEdgeOffset = () => {
+    const atStart = position >= 0;
+    const atEnd = position <= maxShift;
+    const edgeValue = window.innerWidth >= 960 ? 16 : 8; // desktop / mobile
 
-	function getGap() {
-		return parseFloat(getComputedStyle(track).gap) || 0;
-	}
+    if (atStart) {
+      mask.style.setProperty("--mask-left", "0%");
+      mask.style.setProperty("--mask-right", "90%");
+      return edgeValue; // відступ від лівого бордера
+    } else if (atEnd) {
+      mask.style.setProperty("--mask-left", "10%");
+      mask.style.setProperty("--mask-right", "100%");
+      return -edgeValue; // відступ від правого бордера
+    } else {
+      mask.style.setProperty("--mask-left", "10%");
+      mask.style.setProperty("--mask-right", "90%");
+      return 0; // без відступу
+    }
+  };
 
-	function getCenterOffset() {
-		return getContainerWidth() / 2 - cardWidth / 2;
-	}
+  const applyTransform = (animated = true) => {
+    track.style.transition = animated
+      ? "transform 0.45s cubic-bezier(0.22,0.61,0.36,1)"
+      : "none";
 
-	function clampPosition() {
-		if (position > 0) position = 0;
-		if (position < maxShift) position = maxShift;
-	}
+    const edgeOffset = updateMaskAndEdgeOffset();
+    track.style.transform = `translateX(${position + edgeOffset}px)`;
 
-	function applyTransform(animated = true) {
-		track.style.transition = animated
-			? "transform 0.45s cubic-bezier(0.22,0.61,0.36,1)"
-			: "none";
+    // кнопки
+    btnLeft.classList.toggle("is-disabled", position >= 0);
+    btnRight.classList.toggle("is-disabled", position <= maxShift);
+  };
 
-		track.style.transform = `translateX(${position}px)`;
-		updateArrowsOpacity();
-	}
+  /* ---------- NAVIGATION ---------- */
+  const goToIndex = (index, animated = true) => {
+    index = Math.max(0, Math.min(slides.length - 1, index));
+    position = -(index * cardWidth) + getCenterOffset();
+    clampPosition();
+    applyTransform(animated);
+  };
 
-	/* ---------- ACTIVE INDEX (ГОЛОВНИЙ FIX) ---------- */
+  const recalc = () => {
+    cardWidth = slides[0].offsetWidth + getGap();
+    maxShift = -(track.scrollWidth - getContainerWidth());
+    goToIndex(0, false);
+  };
 
-	function getCurrentIndex() {
-		const centerOffset = getCenterOffset();
-		return Math.round((-position + centerOffset) / cardWidth);
-	}
+  window.addEventListener("resize", recalc);
+  recalc();
 
-	function goToIndex(index, animated = true) {
-		const centerOffset = getCenterOffset();
+  btnRight.addEventListener("click", (e) => { e.preventDefault(); goToIndex(getCurrentIndex() + 1); });
+  btnLeft.addEventListener("click", (e) => { e.preventDefault(); goToIndex(getCurrentIndex() - 1); });
 
-		index = Math.max(0, Math.min(slides.length - 1, index));
+  /* ---------- DRAG / SWIPE ---------- */
+  let dragging = false;
+  let startX = 0;
+  let startPos = 0;
 
-		position = -(index * cardWidth) + centerOffset;
+  const dragStart = (e) => {
+    dragging = true;
+    startX = e.pageX || e.touches[0].pageX;
+    startPos = position;
+    startTime = Date.now();
+    velocity = 0;
+    track.style.transition = "none";
+  };
 
-		clampPosition();
-		applyTransform(animated);
-	}
+  const dragMove = (e) => {
+    if (!dragging) return;
+    e.preventDefault();
+    const x = e.touches ? e.touches[0].pageX : e.pageX;
+    const delta = x - startX;
+    position = startPos + delta;
 
-	/* ---------------- RECALC ---------------- */
+    const elapsed = Date.now() - startTime;
+    if (elapsed > 0) velocity = Math.max(-3, Math.min(3, delta / elapsed));
 
-	function recalc() {
-		cardWidth = slides[0].offsetWidth + getGap();
+    clampPosition();
+    track.style.transform = `translateX(${position + updateMaskAndEdgeOffset()}px)`;
+  };
 
-		const containerWidth = getContainerWidth();
-		maxShift = -(track.scrollWidth - containerWidth);
+  const dragEnd = () => {
+    if (!dragging) return;
+    dragging = false;
+    let index = getCurrentIndex();
+    const speed = Math.abs(velocity);
+    if (speed > 0.5) {
+      const boost = Math.min(4, Math.ceil(speed * 2));
+      index += velocity < 0 ? boost : -boost;
+    }
+    goToIndex(index);
+  };
 
-		goToIndex(0, false);
-	}
+  /* ---------- HOLD SCROLL ---------- */
+  const startHold = (direction) => {
+    holdTimeout = setTimeout(() => {
+      holdInterval = setInterval(() => {
+        position += direction * cardWidth * FAST_STEP;
+        clampPosition();
+        applyTransform(false);
+      }, FAST_INTERVAL);
+    }, HOLD_DELAY);
+  };
 
-	window.addEventListener("resize", recalc);
-	recalc();
+  const stopHold = () => {
+    clearTimeout(holdTimeout);
+    clearInterval(holdInterval);
+    holdTimeout = null;
+    holdInterval = null;
+    goToIndex(getCurrentIndex());
+  };
 
-	/* ---------------- ARROWS ---------------- */
+  btnRight.addEventListener("mousedown", () => startHold(-1));
+  btnRight.addEventListener("touchstart", () => startHold(-1), { passive: true });
+  btnLeft.addEventListener("mousedown", () => startHold(1));
+  btnLeft.addEventListener("touchstart", () => startHold(1), { passive: true });
 
-	function updateArrowsOpacity() {
-		btnLeft.classList.toggle("is-disabled", position >= 0);
-		btnRight.classList.toggle("is-disabled", position <= maxShift);
-	}
+  ["mouseup","mouseleave","touchend","touchcancel"].forEach(evt => {
+    btnRight.addEventListener(evt, stopHold);
+    btnLeft.addEventListener(evt, stopHold);
+  });
 
-	btnRight.addEventListener("click", e => {
-		e.preventDefault();
-		goToIndex(getCurrentIndex() + 1);
-	});
+  track.addEventListener("touchstart", dragStart, { passive: true });
+  track.addEventListener("touchmove", dragMove, { passive: false });
+  track.addEventListener("touchend", dragEnd);
+  track.addEventListener("touchcancel", dragEnd);
 
-	btnLeft.addEventListener("click", e => {
-		e.preventDefault();
-		goToIndex(getCurrentIndex() - 1);
-	});
-
-	/* ---------------- DRAG ---------------- */
-
-	let dragging = false;
-	let startX = 0;
-	let startPos = 0;
-
-	function dragStart(e) {
-		dragging = true;
-		startX = e.pageX || e.touches[0].pageX;
-		startPos = position;
-		startTime = Date.now();
-		velocity = 0;
-		track.style.transition = "none";
-	}
-
-	function dragMove(e) {
-		if (!dragging) return;
-
-		e.preventDefault();
-
-		const x = e.touches ? e.touches[0].pageX : e.pageX;
-		const delta = x - startX;
-
-		position = startPos + delta;
-
-		const elapsed = Date.now() - startTime;
-		if (elapsed > 0) {
-			velocity = Math.max(-3, Math.min(3, delta / elapsed));
-		}
-
-		clampPosition();
-		track.style.transform = `translateX(${position}px)`;
-	}
-
-	function dragEnd() {
-		if (!dragging) return;
-		dragging = false;
-
-		let index = getCurrentIndex();
-
-		// fast swipe boost
-		const speed = Math.abs(velocity);
-		if (speed > 0.5) {
-			const boost = Math.min(4, Math.ceil(speed * 2));
-			index += velocity < 0 ? boost : -boost;
-		}
-
-		goToIndex(index);
-	}
-
-	/* ---------------- HOLD SCROLL ---------------- */
-
-	function startHold(direction) {
-		holdTimeout = setTimeout(() => {
-
-			holdInterval = setInterval(() => {
-				position += direction * cardWidth * FAST_STEP;
-				clampPosition();
-				applyTransform(false);
-			}, FAST_INTERVAL);
-
-		}, HOLD_DELAY);
-	}
-
-	function stopHold() {
-		clearTimeout(holdTimeout);
-		clearInterval(holdInterval);
-
-		holdTimeout = null;
-		holdInterval = null;
-
-		// SNAP ДО ЦЕНТРУ ПІСЛЯ HOLD
-		goToIndex(getCurrentIndex());
-	}
-
-	btnRight.addEventListener("mousedown", () => startHold(-1));
-	btnRight.addEventListener("touchstart", () => startHold(-1), { passive:true });
-
-	btnLeft.addEventListener("mousedown", () => startHold(1));
-	btnLeft.addEventListener("touchstart", () => startHold(1), { passive:true });
-
-	["mouseup","mouseleave","touchend","touchcancel"].forEach(evt=>{
-		btnRight.addEventListener(evt, stopHold);
-		btnLeft.addEventListener(evt, stopHold);
-	});
-
-	/* ---------------- EVENTS ---------------- */
-
-	track.addEventListener("touchstart", dragStart, { passive:true });
-	track.addEventListener("touchmove", dragMove, { passive:false });
-	track.addEventListener("touchend", dragEnd);
-	track.addEventListener("touchcancel", dragEnd);
-
-	track.addEventListener("mousedown", e => {
-		e.preventDefault();
-		dragStart(e);
-	});
-
-	document.addEventListener("mousemove", dragMove);
-	document.addEventListener("mouseup", dragEnd);
-
+  track.addEventListener("mousedown", (e) => { e.preventDefault(); dragStart(e); });
+  document.addEventListener("mousemove", dragMove);
+  document.addEventListener("mouseup", dragEnd);
 });
 </script>
 
