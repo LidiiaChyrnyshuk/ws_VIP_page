@@ -183,15 +183,14 @@
 				--greyLightColor: #f1f3f5;
 				--greyColor: #4f606f;
 				--bgColor: #010808;
-				--buttonBgColor: linear-gradient(0deg, #1dd2c3 0%, #00766c 100%);
-				--textAccentColor: #6df0e3;
+
 				--bgFaq: #0b2126;
 			}
 			html {
 				height: 100%;
 			}
 			.vip_page_wrapper {
-				background-color: var(--bgColor) !important;
+				background: #010808;
 				font-family:
 					Stolzl,
 					Inter,
@@ -266,43 +265,64 @@
 				-webkit-box-direction: normal;
 				-ms-flex-direction: column;
 				flex-direction: column;
-			}
-			@media (min-width: 960px) {
-				.vip_page_main {
-				}
-			}
 
+				position: relative;
+				z-index: 0;
+				background: #010808;
+			}
 			@media (min-width: 960px) {
-				.vip_page_section_wrap {
-					background: radial-gradient(
-						29.61% 29.88% at 50% 50%,
-						#02494f 0%,
-						#010808 100%
-					);
-				}
+
+				.vip_page_main::before {
+					content: "";
+					position: absolute;
+					left: 0;
+					right: 0;
+					top:0;
+					height:70%;
+					
+					background: radial-gradient(29.61% 29.35% at 50% 50%, #02494F 0%, #010808 100%);
+
+					z-index: -1;
+					pointer-events: none;
+			}
 			}
 
 			/* -------- benefits --------- */
 			.vip_page_benefits {
+				position: relative;
 				width: 100%;
 				padding-left: 8px;
 				padding-top: 8px;
 				padding-right: 8px;
-				background: radial-gradient(
-					118.59% 51.78% at 51.94% 51.8%,
-					#02494f 0%,
-					#000709 100%
-				);
+				/* background: #010808; */
+				z-index: 3;
 			}
+			@media screen and (max-width: 959px) {
+				.vip_page_benefits::after {
+					content: "";
+					position: absolute;
+					left: 0;
+					right: 0;
+					top: 0;
+					height: 100%;
+					background: radial-gradient(
+						81.11% 50% at 50% 50.03%,
+						#02494f 0%,
+						#000709 100%
+					);
+					z-index: -1;
+					pointer-events: none;
+				}
+			}
+
 			@media screen and (min-width: 960px) {
 				.vip_page_benefits {
 					padding-left: 16px;
 					padding-top: 17px;
 					padding-right: 16px;
-					background: transparent;
+					/* background: #010808; */
 				}
-			}
-
+		}
 			.vip_page_benefits_title {
 				font-family:
 					Stolzl,
@@ -504,7 +524,7 @@
 				padding: 12px 24px 12px 24px;
 				min-height: 40px;
 				border-radius: 12px;
-				background: var(--buttonBgColor);
+				background: linear-gradient(0deg, #1dd2c3 0%, #00766c 100%);
 				color: var(--whiteColor) !important;
 				box-shadow:
 					0px -2px 0px 0px #0000007a inset,
@@ -538,6 +558,7 @@
 				line-height: 24px;
 				text-align: center;
 				vertical-align: middle;
+				cursor: pointer;
 			}
 			.vip_page_benefits_button:hover {
 				box-shadow:
@@ -558,11 +579,10 @@
 
 			/* ----- slider -------- */
 			.vip_page_level {
+				position: relative;
+				z-index: 0;
 				width: 100%;
-			}
-			@media screen and (min-width: 960px) {
-				.vip_page_level {
-				}
+				/* background: #010808; */
 			}
 
 			.vip_page_level_title {
@@ -615,7 +635,7 @@
 				font-size: 14px;
 				line-height: 16px;
 				text-align: center;
-				max-width: 458px;
+				max-width: 550px;
 				margin: 0 auto 16px auto;
 			}
 			@media screen and (min-width: 960px) {
@@ -660,7 +680,7 @@
 				padding: 12px 24px 12px 24px;
 				min-height: 40px;
 				border-radius: 12px;
-				background: var(--buttonBgColor);
+				background: linear-gradient(0deg, #1dd2c3 0%, #00766c 100%);
 				color: var(--whiteColor) !important;
 				box-shadow:
 					0px -2px 0px 0px #0000007a inset,
@@ -694,6 +714,7 @@
 				line-height: 24px;
 				text-align: center;
 				vertical-align: middle;
+				cursor: pointer;
 			}
 			.vip_page_level_button:hover {
 				box-shadow:
@@ -716,6 +737,7 @@
 
 			.vip_page_status {
 				position: relative;
+				/* background: #010808; */
 			}
 			@media screen and (min-width: 960px) {
 				.vip_page_status {
@@ -731,6 +753,7 @@
 				width: 188px;
 				height: 188px;
 				z-index: 5;
+				pointer-events: none;
 			}
 			.vip_page_status_img_2 {
 				position: absolute;
@@ -740,6 +763,7 @@
 				width: 216px;
 				height: 55px;
 				z-index: 10;
+				pointer-events: none;
 			}
 			.vip_page_status_img_3 {
 				position: absolute;
@@ -749,6 +773,7 @@
 				width: 190px;
 				height: 183px;
 				z-index: 5;
+				pointer-events: none;
 			}
 			@media screen and (min-width: 960px) {
 				.vip_page_status_img_1 {
@@ -896,7 +921,7 @@
 				padding: 12px 24px 12px 24px;
 				min-height: 40px;
 				border-radius: 12px;
-				background: var(--buttonBgColor);
+				background: linear-gradient(0deg, #1dd2c3 0%, #00766c 100%);
 				color: var(--whiteColor) !important;
 				box-shadow:
 					0px -2px 0px 0px #0000007a inset,
@@ -930,6 +955,7 @@
 				line-height: 24px;
 				text-align: center;
 				vertical-align: middle;
+				cursor: pointer;
 			}
 
 			.vip_page_status_button:hover {
@@ -953,6 +979,7 @@
 			.vip_page_question {
 				width: 100%;
 				padding: 0 8px 0 8px;
+				background: #010808;
 			}
 			@media screen and (min-width: 960px) {
 				.vip_page_question {
@@ -991,12 +1018,12 @@
 			}
 
 			.vip_page_question_list {
-				background: var(--bgFaq) !important;
+				background: #0b2126 !important;
 				border-radius: 12px;
 			}
 
 			.vip_page_question_list_item {
-				background: var(--bgFaq) !important;
+				background: #0b2126 !important;
 				/* padding: 0 16px 0 0; */
 				overflow: hidden;
 				transition: color 0.25s ease;
@@ -1062,7 +1089,7 @@
 			}
 
 			.vip_page_question_list_item[open] summary {
-				color: var(--textAccentColor) !important;
+				color: #6df0e3 !important;
 				padding: 20px 16px;
 			}
 
@@ -1130,125 +1157,117 @@
 		<div class="vip_page_wrapper">
 			<div class="vip_page_container">
 				<main class="vip_page_main">
-					<div class="vip_page_section_wrap">
-						<section class="vip_page_benefits">
-							<div class="vip_page_benefits_title">VIP BENEFITS</div>
-							<div class="vip_page_benefits_subtitle">
-								Your VIP journey begins with a qualifying deposit, granting
-								access to the program’s exclusive privileges.
-							</div>
+					<section class="vip_page_benefits">
+						<div class="vip_page_benefits_title">VIP BENEFITS</div>
+						<div class="vip_page_benefits_subtitle">
+							Your VIP journey begins with a qualifying deposit, granting access
+							to the program’s exclusive privileges.
+						</div>
 
-							<div>
-								<ul class="vip_page_benefits_list">
-									<li class="vip_page_benefits_item item-1">
-										<div class="vip_page_benefits_item_img_wrap">
-											<img
-												class="vip_page_benefits_item_img"
-												src="./images/benefit_1.png"
-												alt="fleugzeug"
-											/>
+						<div>
+							<ul class="vip_page_benefits_list">
+								<li class="vip_page_benefits_item item-1">
+									<div class="vip_page_benefits_item_img_wrap">
+										<img
+											class="vip_page_benefits_item_img"
+											src="./images/benefit_1.png"
+											alt="fleugzeug"
+										/>
+									</div>
+									<div class="vip_page_benefits_item_text_wrap">
+										<div class="vip_page_benefits_item_title_wrap">
+											<div class="vip_page_benefits_item_title">Super fast</div>
+											<div class="vip_page_benefits_item_title">withdrawal</div>
 										</div>
-										<div class="vip_page_benefits_item_text_wrap">
-											<div class="vip_page_benefits_item_title_wrap">
-												<div class="vip_page_benefits_item_title">
-													Super fast
-												</div>
-												<div class="vip_page_benefits_item_title">
-													withdrawal
-												</div>
-											</div>
-											<div class="vip_page_benefits_item_text">
-												Average withdrawal time<br />
-												for VIP members - 2 minutes
-											</div>
+										<div class="vip_page_benefits_item_text">
+											Average withdrawal time<br />
+											for VIP members - 2 minutes
 										</div>
-									</li>
-									<li class="vip_page_benefits_item item-2">
-										<div class="vip_page_benefits_item_img_wrap">
-											<img
-												class="vip_page_benefits_item_img"
-												src="./images/benefit_2.png"
-												alt="diamond"
-											/>
-										</div>
-										<div class="vip_page_benefits_item_text_wrap">
-											<div>
-												<div class="vip_page_benefits_item_title">
-													Exclusive cashback offer
-												</div>
-												<div class="vip_page_benefits_item_title">
-													and other bonuses
-												</div>
+									</div>
+								</li>
+								<li class="vip_page_benefits_item item-2">
+									<div class="vip_page_benefits_item_img_wrap">
+										<img
+											class="vip_page_benefits_item_img"
+											src="./images/benefit_2.png"
+											alt="diamond"
+										/>
+									</div>
+									<div class="vip_page_benefits_item_text_wrap">
+										<div>
+											<div class="vip_page_benefits_item_title">
+												Exclusive cashback offer
 											</div>
-											<div class="vip_page_benefits_item_text">
-												Up to 70% cashback and additional<br />
-												privileges not available in the standard program
+											<div class="vip_page_benefits_item_title">
+												and other bonuses
 											</div>
 										</div>
-									</li>
-									<li class="vip_page_benefits_item item-3">
-										<div class="vip_page_benefits_item_img_wrap">
-											<img
-												class="vip_page_benefits_item_img vip_page_benefits_item_img_mob"
-												src="./images/benefit_3.png"
-												alt="personalmanager"
-											/>
+										<div class="vip_page_benefits_item_text">
+											Up to 70% cashback and additional<br />
+											privileges not available in the standard program
 										</div>
-										<div class="vip_page_benefits_item_text_wrap">
-											<div class="vip_page_benefits_item_title_wrap">
-												<div class="vip_page_benefits_item_title">
-													Your personal
-												</div>
-												<div class="vip_page_benefits_item_title">
-													concierge
-												</div>
+									</div>
+								</li>
+								<li class="vip_page_benefits_item item-3">
+									<div class="vip_page_benefits_item_img_wrap">
+										<img
+											class="vip_page_benefits_item_img vip_page_benefits_item_img_mob"
+											src="./images/benefit_3.png"
+											alt="personalmanager"
+										/>
+									</div>
+									<div class="vip_page_benefits_item_text_wrap">
+										<div class="vip_page_benefits_item_title_wrap">
+											<div class="vip_page_benefits_item_title">
+												Your personal
 											</div>
-											<div class="vip_page_benefits_item_text">
-												Personal support tailored specifically
-												to your preferences 24/7
-											</div>
+											<div class="vip_page_benefits_item_title">concierge</div>
 										</div>
-									</li>
-								</ul>
-							</div>
-							<div class="vip_page_benefits_button_wrap">
-								<a class="vip_page_benefits_button" href="/cashier/deposit"
-									><img
-										src="./images/diamond_icon.png"
-										alt="diamond"
-										width="24"
-										height="24"
-									/>Get privilege</a
-								>
-							</div>
-						</section>
+										<div class="vip_page_benefits_item_text">
+											Personal support tailored specifically to your preferences
+											24/7
+										</div>
+									</div>
+								</li>
+							</ul>
+						</div>
+						<div class="vip_page_benefits_button_wrap">
+							<a class="vip_page_benefits_button" href="/cashier/deposit"
+								><img
+									src="./images/diamond_icon.png"
+									alt="diamond"
+									width="24"
+									height="24"
+								/>Get privilege</a
+							>
+						</div>
+					</section>
 
-						<section class="vip_page_level">
-							<div class="vip_page_level_title">Loalty that works for you</div>
-							<div class="vip_page_level_subtitle">
-								Review the benefits associated with each VIP level.Levels are
-								unlocked starting from 20,000 USDT in deposits.
-							</div>
-							<div>
-								<iframe
-									class="vip_page_level_slider_wrap"
-									src="./slider.html"
-									frameborder="0"
-									width="100%"
-								></iframe>
-							</div>
-							<div class="vip_page_level_button_wrap">
-								<a class="vip_page_level_button" href="/cashier/deposit"
-									><img
-										src="./images/diamond_icon.png"
-										alt="diamond"
-										width="24"
-										height="24"
-									/>Get privilege</a
-								>
-							</div>
-						</section>
-					</div>
+					<section class="vip_page_level">
+						<div class="vip_page_level_title">Loalty that works for you</div>
+						<div class="vip_page_level_subtitle">
+							Review the benefits associated with each VIP level.Levels are
+							unlocked starting from 20,000 USDT in deposits.
+						</div>
+						<div>
+							<iframe
+								class="vip_page_level_slider_wrap"
+								src="./slider.html"
+								frameborder="0"
+								width="100%"
+							></iframe>
+						</div>
+						<div class="vip_page_level_button_wrap">
+							<a class="vip_page_level_button" href="/cashier/deposit"
+								><img
+									src="./images/diamond_icon.png"
+									alt="diamond"
+									width="24"
+									height="24"
+								/>Get privilege</a
+							>
+						</div>
+					</section>
 
 					<section class="vip_page_status">
 						<img
