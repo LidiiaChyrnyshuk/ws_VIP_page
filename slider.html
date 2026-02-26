@@ -348,7 +348,7 @@
 				const FAST_STEP = 3;
 				const FAST_INTERVAL = 80;
 
-				const DRAG_THRESHOLD = 6; // 🔥 анти micro-drag
+				const DRAG_THRESHOLD = 6; // анти micro-drag
 
 				let holdTimeout = null;
 				let holdInterval = null;
@@ -385,7 +385,7 @@
 				/* ---------- MASK + EDGE ---------- */
 
 				const updateMaskAndEdgeOffset = () => {
-					// 🔥 не міняємо маску під час drag
+					//  не міняємо маску під час drag
 					if (isDraggingNow) return 0;
 
 					// tolerance щоб iframe не флікерив
@@ -475,7 +475,7 @@
 					const atStart = startPos >= -1;
 					const atEnd = startPos <= maxShift + 1;
 
-					// 🔥 блокуємо дрібний рух у заборонену сторону
+					// блокуємо дрібний рух у заборонену сторону
 					if (
 						(atStart && delta > 0 && Math.abs(delta) < DRAG_THRESHOLD) ||
 						(atEnd && delta < 0 && Math.abs(delta) < DRAG_THRESHOLD)
@@ -493,7 +493,7 @@
 
 					clampPosition();
 
-					track.style.transform = `translateX(${position}px)`; // без edgeOffset під час drag
+					track.style.transform = `translateX(${position}px)`; 
 				};
 
 				const dragEnd = () => {

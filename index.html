@@ -277,7 +277,7 @@
 					left: 0;
 					right: 0;
 					top: 0;
-					height: 70%;
+					height: 100%;
 
 					background: radial-gradient(
 						29.61% 29.35% at 50% 50%,
@@ -287,6 +287,80 @@
 
 					z-index: -1;
 					pointer-events: none;
+				}
+			}
+
+			/* -------- header --------- */
+			.vip_page_header {
+				position: relative;
+				z-index: 3;
+				width: 100%;
+				min-height: 155px;
+			}
+
+			.vip_page_header_img {
+			}
+
+			.vip_page_header_title_wrap {
+				position: absolute;
+				top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+			}
+
+			.vip_page_header_title {
+				font-family:
+					Stolzl,
+					Inter,
+					-apple-system,
+					BlinkMacSystemFont,
+					Segoe UI,
+					Roboto,
+					Oxygen,
+					Ubuntu,
+					Cantarell,
+					Fira Sans,
+					Droid Sans,
+					Helvetica Neue,
+					sans-serif !important;
+				font-weight: 700;
+				font-style: normal;
+				font-size: 24px;
+				line-height: 100%;
+				text-align: center;
+				text-transform: uppercase;
+			}
+			@media screen and (min-width: 960px) {
+				.vip_page_header_title {
+					font-size: 64px;
+				}
+			}
+
+			.vip_page_header_subtitle {
+				font-family:
+					Stolzl,
+					Inter,
+					-apple-system,
+					BlinkMacSystemFont,
+					Segoe UI,
+					Roboto,
+					Oxygen,
+					Ubuntu,
+					Cantarell,
+					Fira Sans,
+					Droid Sans,
+					Helvetica Neue,
+					sans-serif !important;
+				font-weight: 700;
+				font-style: normal;
+				font-size: 16px;
+				line-height: 100%;
+				text-align: center;
+				text-transform: uppercase;
+			}
+				@media screen and (min-width: 960px) {
+				.vip_page_header_subtitle {
+					font-size: 42px;
 				}
 			}
 
@@ -1169,6 +1243,18 @@
 		<div class="vip_page_wrapper">
 			<div class="vip_page_container">
 				<main class="vip_page_main">
+					<section class="vip_page_header">
+						<img
+							class="vip_page_header_img"
+							src="./images/banner.png"
+							alt="banner"
+						/>
+						<div class="vip_page_header_title_wrap">
+							<div class="vip_page_header_title">get your</div>
+							<div class="vip_page_header_title">vip status</div>
+							<div class="vip_page_header_subtitle">with WEISSbet</div>
+						</div>
+					</section>
 					<section class="vip_page_benefits">
 						<div class="vip_page_benefits_title">VIP BENEFITS</div>
 						<div class="vip_page_benefits_subtitle">
