@@ -109,7 +109,7 @@
 			}
 			.vip_page_level_arrows_wrap a.is-disabled {
 				opacity: 0;
-				pointer-events: none;
+				pointer-events: auto;
 			}
 			.vip_page_level_arrows_wrap a:not(.is-disabled):hover {
 				opacity: 1;
@@ -337,230 +337,230 @@
 		</section>
 
 		<script>
-			document.addEventListener("DOMContentLoaded", () => {
-				const track = document.getElementById("levels-slider");
-				const slides = Array.from(track.children);
-				const btnLeft = document.getElementById("arrow-left");
-				const btnRight = document.getElementById("arrow-right");
-				const mask = document.querySelector(".vip_page_level_container_mask");
+document.addEventListener("DOMContentLoaded", () => {
 
-				const HOLD_DELAY = 300;
-				const FAST_STEP = 3;
-				const FAST_INTERVAL = 80;
+  const track = document.getElementById("levels-slider");
+  const slides = Array.from(track.children);
+  const btnLeft = document.getElementById("arrow-left");
+  const btnRight = document.getElementById("arrow-right");
+  const mask = document.querySelector(".vip_page_level_container_mask");
 
-				const DRAG_THRESHOLD = 6; // анти micro-drag
+  const HOLD_DELAY = 300;
+  const FAST_STEP = 3;
+  const FAST_INTERVAL = 80;
+  const DRAG_THRESHOLD = 8;
 
-				let holdTimeout = null;
-				let holdInterval = null;
+  let holdTimeout = null;
+  let holdInterval = null;
 
-				let position = 0;
-				let cardWidth = 0;
-				let maxShift = 0;
+  let position = 0;
+  let cardWidth = 0;
+  let maxShift = 0;
 
-				let velocity = 0;
-				let startTime = 0;
+  let currentIndex = 0; 
 
-				let dragging = false;
-				let isDraggingNow = false;
-				let startX = 0;
-				let startPos = 0;
+  let velocity = 0;
+  let startTime = 0;
 
-				/* ---------- HELPERS ---------- */
+  let dragging = false;
+  let isDraggingNow = false;
+  let startX = 0;
+  let startPos = 0;
 
-				const getGap = () => parseFloat(getComputedStyle(track).gap) || 0;
+  /* ---------- HELPERS ---------- */
 
-				const getContainerWidth = () =>
-					track.closest(".slider-container").clientWidth;
+  const getGap = () =>
+    parseFloat(getComputedStyle(track).gap) || 0;
 
-				const getCenterOffset = () => getContainerWidth() / 2 - cardWidth / 2;
+  const getContainerWidth = () =>
+    track.closest(".slider-container").clientWidth;
 
-				const clampPosition = () => {
-					if (position > 0) position = 0;
-					if (position < maxShift) position = maxShift;
-				};
+  const getCenterOffset = () =>
+    getContainerWidth() / 2 - cardWidth / 2;
 
-				const getCurrentIndex = () =>
-					Math.round((-position + getCenterOffset()) / cardWidth);
+  const clampPosition = () => {
+    if (position > 0) position = 0;
+    if (position < maxShift) position = maxShift;
+  };
 
-				/* ---------- MASK + EDGE ---------- */
+  const getCurrentIndexFromPosition = () =>
+    Math.round((-position + getCenterOffset()) / cardWidth);
 
-				const updateMaskAndEdgeOffset = () => {
-					//  не міняємо маску під час drag
-					if (isDraggingNow) return 0;
+  /* ---------- MASK + EDGE ---------- */
 
-					// tolerance щоб iframe не флікерив
-					const atStart = position >= -1;
-					const atEnd = position <= maxShift + 1;
+  const updateMaskAndEdgeOffset = () => {
 
-					const edgeValue = window.innerWidth >= 960 ? 16 : 8;
+    if (isDraggingNow) return 0;
 
-					if (atStart) {
-						mask.style.setProperty("--mask-left", "0%");
-						mask.style.setProperty("--mask-right", "90%");
-						return edgeValue;
-					}
+    const atStart = currentIndex === 0;
+    const atEnd = currentIndex === slides.length - 1;
 
-					if (atEnd) {
-						mask.style.setProperty("--mask-left", "10%");
-						mask.style.setProperty("--mask-right", "100%");
-						return -edgeValue;
-					}
+    const edgeValue = window.innerWidth >= 960 ? 16 : 8;
 
-					mask.style.setProperty("--mask-left", "10%");
-					mask.style.setProperty("--mask-right", "90%");
-					return 0;
-				};
+    if (atStart) {
+      mask.style.setProperty("--mask-left", "0%");
+      mask.style.setProperty("--mask-right", "90%");
+      return edgeValue;
+    }
 
-				const applyTransform = (animated = true) => {
-					track.style.transition = animated
-						? "transform 0.45s cubic-bezier(0.22,0.61,0.36,1)"
-						: "none";
+    if (atEnd) {
+      mask.style.setProperty("--mask-left", "10%");
+      mask.style.setProperty("--mask-right", "100%");
+      return -edgeValue;
+    }
 
-					const edgeOffset = updateMaskAndEdgeOffset();
+    mask.style.setProperty("--mask-left", "10%");
+    mask.style.setProperty("--mask-right", "90%");
+    return 0;
+  };
 
-					track.style.transform = `translateX(${position + edgeOffset}px)`;
+  const applyTransform = (animated = true) => {
 
-					btnLeft.classList.toggle("is-disabled", position >= -1);
-					btnRight.classList.toggle("is-disabled", position <= maxShift + 1);
-				};
+    track.style.transition = animated
+      ? "transform 0.45s cubic-bezier(0.22,0.61,0.36,1)"
+      : "none";
 
-				/* ---------- NAVIGATION ---------- */
+    const edgeOffset = updateMaskAndEdgeOffset();
 
-				const goToIndex = (index, animated = true) => {
-					index = Math.max(0, Math.min(slides.length - 1, index));
-					position = -(index * cardWidth) + getCenterOffset();
-					clampPosition();
-					applyTransform(animated);
-				};
+    track.style.transform =
+      `translate3d(${position + edgeOffset}px,0,0)`;
 
-				const recalc = () => {
-					cardWidth = slides[0].offsetWidth + getGap();
-					maxShift = -(track.scrollWidth - getContainerWidth());
-					goToIndex(0, false);
-				};
+    //  кнопки тепер залежать тільки від index
+    btnLeft.classList.toggle("is-disabled", currentIndex === 0);
+    btnRight.classList.toggle(
+      "is-disabled",
+      currentIndex === slides.length - 1
+    );
+  };
 
-				window.addEventListener("resize", recalc);
-				recalc();
+  /* ---------- NAVIGATION ---------- */
 
-				btnRight.addEventListener("click", (e) => {
-					e.preventDefault();
-					goToIndex(getCurrentIndex() + 1);
-				});
+  const goToIndex = (index, animated = true) => {
 
-				btnLeft.addEventListener("click", (e) => {
-					e.preventDefault();
-					goToIndex(getCurrentIndex() - 1);
-				});
+    currentIndex = Math.max(
+      0,
+      Math.min(slides.length - 1, index)
+    );
 
-				/* ---------- DRAG ---------- */
+    position =
+      -(currentIndex * cardWidth) + getCenterOffset();
 
-				const dragStart = (e) => {
-					dragging = true;
-					isDraggingNow = true;
+    clampPosition();
+    applyTransform(animated);
+  };
 
-					startX = e.pageX || e.touches[0].pageX;
-					startPos = position;
-					startTime = Date.now();
-					velocity = 0;
+  const recalc = () => {
+    cardWidth = slides[0].offsetWidth + getGap();
+    maxShift = -(track.scrollWidth - getContainerWidth());
+    goToIndex(currentIndex, false);
+  };
 
-					track.style.transition = "none";
-				};
+  window.addEventListener("resize", recalc);
+  recalc();
 
-				const dragMove = (e) => {
-					if (!dragging) return;
+  btnRight.addEventListener("click", e => {
+    e.preventDefault();
+    goToIndex(currentIndex + 1);
+  });
 
-					const x = e.touches ? e.touches[0].pageX : e.pageX;
-					const delta = x - startX;
+  btnLeft.addEventListener("click", e => {
+    e.preventDefault();
+    goToIndex(currentIndex - 1);
+  });
 
-					const atStart = startPos >= -1;
-					const atEnd = startPos <= maxShift + 1;
+  /* ---------- DRAG ---------- */
 
-					// блокуємо дрібний рух у заборонену сторону
-					if (
-						(atStart && delta > 0 && Math.abs(delta) < DRAG_THRESHOLD) ||
-						(atEnd && delta < 0 && Math.abs(delta) < DRAG_THRESHOLD)
-					) {
-						return;
-					}
+  const dragStart = (e) => {
+    dragging = true;
+    isDraggingNow = true;
 
-					e.preventDefault();
+    startX = e.pageX || e.touches[0].pageX;
+    startPos = position;
+    startTime = Date.now();
+    velocity = 0;
 
-					position = startPos + delta;
+    track.style.transition = "none";
+  };
 
-					const elapsed = Date.now() - startTime;
-					if (elapsed > 0)
-						velocity = Math.max(-3, Math.min(3, delta / elapsed));
+  const dragMove = (e) => {
+    if (!dragging) return;
 
-					clampPosition();
+    const x = e.touches ? e.touches[0].pageX : e.pageX;
+    const delta = x - startX;
 
-					track.style.transform = `translateX(${position}px)`; 
-				};
+    if (Math.abs(delta) < DRAG_THRESHOLD) return;
 
-				const dragEnd = () => {
-					if (!dragging) return;
+    e.preventDefault();
 
-					dragging = false;
-					isDraggingNow = false;
+    position = startPos + delta;
 
-					let index = getCurrentIndex();
-					const speed = Math.abs(velocity);
+    const elapsed = Date.now() - startTime;
+    if (elapsed > 0)
+      velocity = Math.max(-3, Math.min(3, delta / elapsed));
 
-					if (speed > 0.5) {
-						const boost = Math.min(4, Math.ceil(speed * 2));
-						index += velocity < 0 ? boost : -boost;
-					}
+    clampPosition();
 
-					goToIndex(index);
-				};
+    track.style.transform =
+      `translate3d(${position}px,0,0)`;
+  };
 
-				/* ---------- HOLD SCROLL ---------- */
+  const dragEnd = () => {
+    if (!dragging) return;
 
-				const startHold = (direction) => {
-					holdTimeout = setTimeout(() => {
-						holdInterval = setInterval(() => {
-							position += direction * cardWidth * FAST_STEP;
-							clampPosition();
-							applyTransform(false);
-						}, FAST_INTERVAL);
-					}, HOLD_DELAY);
-				};
+    dragging = false;
+    isDraggingNow = false;
 
-				const stopHold = () => {
-					clearTimeout(holdTimeout);
-					clearInterval(holdInterval);
-					holdTimeout = null;
-					holdInterval = null;
-					goToIndex(getCurrentIndex());
-				};
+    let index = getCurrentIndexFromPosition();
 
-				btnRight.addEventListener("mousedown", () => startHold(-1));
-				btnRight.addEventListener("touchstart", () => startHold(-1), {
-					passive: true,
-				});
+    if (Math.abs(velocity) > 0.5) {
+      const boost = Math.min(4, Math.ceil(Math.abs(velocity) * 2));
+      index += velocity < 0 ? boost : -boost;
+    }
 
-				btnLeft.addEventListener("mousedown", () => startHold(1));
-				btnLeft.addEventListener("touchstart", () => startHold(1), {
-					passive: true,
-				});
+    goToIndex(index);
+  };
 
-				["mouseup", "mouseleave", "touchend", "touchcancel"].forEach((evt) => {
-					btnRight.addEventListener(evt, stopHold);
-					btnLeft.addEventListener(evt, stopHold);
-				});
+  /* ---------- HOLD SCROLL ---------- */
 
-				track.addEventListener("touchstart", dragStart, { passive: true });
-				track.addEventListener("touchmove", dragMove, { passive: false });
-				track.addEventListener("touchend", dragEnd);
-				track.addEventListener("touchcancel", dragEnd);
+  const startHold = (direction) => {
+    holdTimeout = setTimeout(() => {
+      holdInterval = setInterval(() => {
+        goToIndex(currentIndex + (direction < 0 ? 1 : -1), false);
+      }, FAST_INTERVAL);
+    }, HOLD_DELAY);
+  };
 
-				track.addEventListener("mousedown", (e) => {
-					e.preventDefault();
-					dragStart(e);
-				});
+  const stopHold = () => {
+    clearTimeout(holdTimeout);
+    clearInterval(holdInterval);
+    holdTimeout = null;
+    holdInterval = null;
+    goToIndex(currentIndex);
+  };
 
-				document.addEventListener("mousemove", dragMove);
-				document.addEventListener("mouseup", dragEnd);
-			});
-		</script>
+  btnRight.addEventListener("mousedown", () => startHold(-1));
+  btnLeft.addEventListener("mousedown", () => startHold(1));
+
+  ["mouseup","mouseleave"].forEach(evt => {
+    btnRight.addEventListener(evt, stopHold);
+    btnLeft.addEventListener(evt, stopHold);
+  });
+
+  track.addEventListener("touchstart", dragStart, { passive: true });
+  track.addEventListener("touchmove", dragMove, { passive: false });
+  track.addEventListener("touchend", dragEnd);
+  track.addEventListener("touchcancel", dragEnd);
+
+  track.addEventListener("mousedown", e => {
+    e.preventDefault();
+    dragStart(e);
+  });
+
+  document.addEventListener("mousemove", dragMove);
+  document.addEventListener("mouseup", dragEnd);
+
+});
+</script>
+
 	</body>
 </html>
